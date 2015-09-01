@@ -1,4 +1,5 @@
 #include "src.h"
+#include "../lib/lib.h"
 
 int create_server(int port)
 {
@@ -35,35 +36,28 @@ int accept_client(int socket_desc)
   return (client);
 }
 
-char *my_itoa(int wert, int laenge) {
-  char *ret =(char *) malloc(laenge+1 * sizeof(char));
-  int i;
-
-  for(i  =0; i < laenge; i++) {
-    ret[laenge-i-1] = (wert % 10) + 48;
-    wert = wert / 10;
-  }
-  ret[laenge]='\0';
-  return ret;
-}
-
 int * accept_for_clients(int socket_desc)
 {
   printf("On entre dans la fonction");
   int * clients = malloc (sizeof (int) * 4);
   int i;
   char * message =  malloc (sizeof (char) * 10);
+  char *final_message = "";
+  
   //char * nombre  =  malloc (sizeof (char) * 2);
   for (i = 0; i < 4; i++)
     {
       clients[i] = accept_client(socket_desc);
       if (clients[i] == -1)
 	return (NULL);
-      printf("le message %s", message);
-      //message = "Client \0";
-      snprintf(message, 10, "Client %d.", i);
-      //message = strcat(message, nombre);
-      write(clients[i], message, my_strlen(message));
+      //printf("le message %s", message);
+      message = "Client \0";
+      //snprintf(message, 10, "Client %d.", i);
+      //my_get_str_to_nbr(i);
+      //final_message = malloc(sizeof(message) * my_strlen(message) + 1);
+      final_message = my_strcat2(message, my_get_str_to_nbr(i));
+      final_message = my_strcat2(final_message, ".");
+      write(clients[i], final_message, my_strlen(final_message));
     }
   return (clients);
 }

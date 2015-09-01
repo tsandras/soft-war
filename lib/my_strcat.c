@@ -1,15 +1,15 @@
-char *my_strncat(char *str1, char *str2, int n)
+char*my_strcat(char *str1, char *str2)
 {
   int i;
   int j;
-
-  for (i = 0; str1[i] != '\0'; i++)
+  i = my_strlen(str1);
+  j = 0;
+  while (str2[j])
     {
+      str1[i] = str2[j];
+      i++;
+      j++;
     }
-  for (j = 0; j < n && str2[j] != '\0'; j++)
-    {
-      str1[i + j] = str2[j];
-    }
-  str1[i + j] = '\0';
+  str1[i] = '\0';
   return (str1);
 }

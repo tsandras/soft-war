@@ -6,6 +6,7 @@
 #include<sys/socket.h>
 #include <errno.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 #include <string.h>
 #include <unistd.h>
 // Pour le Select()
