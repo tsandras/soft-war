@@ -6,6 +6,8 @@
 #include<sys/socket.h>
 #include <errno.h>
 #include <netinet/in.h>
+#include <string.h>
+#include <unistd.h>
 
 void die(char* message);
 int create_server(int port);
