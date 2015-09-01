@@ -1,4 +1,4 @@
-char*my_strcat(char *str1, char *str2)
+char *my_strncat(char *str1, char *str2, int n)
 {
   int i;
   int j;
@@ -6,7 +6,7 @@ char*my_strcat(char *str1, char *str2)
   for (i = 0; str1[i] != '\0'; i++)
     {
     }
-  for (j = 0; str2[j] != '\0'; j++)
+  for (j = 0; j < n && str2[j] != '\0'; j++)
     {
       str1[i + j] = str2[j];
     }

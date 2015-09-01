@@ -67,3 +67,49 @@ int * accept_for_clients(int socket_desc)
     }
   return (clients);
 }
+
+void fd_set_clients(int * clients, fd_set * readfs)
+{
+  int i;
+  FD_ZERO(readfs);
+  for (i = 0; i < 4; i++)
+    FD_SET(clients[i], readfs);
+  FD_SET(0, readfs);
+}
+
+void fd_isset_for(int num, int * clients, fd_set * readfs, char * buffer)
+{
+  int nread;
+  int i;
+  
+  if (FD_ISSET(clients[num], readfs))
+    {
+      memset(buffer, 0, 20);
+      nread = read(clients[num], buffer, 20);
+      buffer[nread] = '\0';
+      for (i = 0; i < 4; i++)
+	{
+	  if (i != num)
+	    write(clients[i], buffer, strlen(buffer));
+	}
+      FD_CLR(clients[0], readfs);
+    }
+}
+
+void select_for_soft_war(int * clients, fd_set * readfs, char * buffer)
+{
+  fd_set_clients(clients, readfs);
+  select(8, readfs, NULL, NULL, NULL);
+  fd_isset_for(0, clients, readfs, buffer);
+  fd_isset_for(1, clients, readfs, buffer);
+  fd_isset_for(2, clients, readfs, buffer);
+  fd_isset_for(3, clients, readfs, buffer);
+  if (FD_ISSET(0, readfs))
+    {
+      close(clients[0]);
+      close(clients[1]);
+      close(clients[2]);
+      close(clients[3]);
+      //return (EXIT_SUCCESS);
+    }
+}
