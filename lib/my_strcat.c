@@ -1,3 +1,5 @@
+#include "lib.h"
+
 char*my_strcat(char *str1, char *str2)
 {
   int i;

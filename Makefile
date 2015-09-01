@@ -9,7 +9,7 @@ OBJ = src/*.c lib/*.c
 CFLAGS += -g -W -Werror -Wall
 
 all:
-	$(LD) $(OBJ) -o $(NAME)
+	$(LD) $(OBJ) $(CFLAGS) -o $(NAME)
 
 clean:
 	rm -rf *.o src/*.o lib/*.o
