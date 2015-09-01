@@ -1,31 +1,45 @@
 #include "lib.h"
-// Only for signed number
-char *my_get_str_to_nbr(int nb)
+
+int get_len_of_nbr(int nb)
 {
   int i;
-  int nbtest;
-  char * tab = malloc(sizeof(char) * 20);
 
-  i = 0;
+  i = 1;
   if (nb < 10)
+    return (i);
+  while(nb >= 10)
     {
-      tab[0] = nb + 48;
-      i++;
+       nb = nb / 10;
+       i++;
     }
-  while (nb > 10)
+  return (i);
+}
+
+int my_power_rec(int nb, int power)
+{
+  if (power <= 0)
+    return ((power <= - 1) ? (0) : (1));
+  return (nb * my_power_rec(nb, power - 1));
+}
+
+char *my_get_nbr_to_str(int nb)
+{
+  int i;
+  int j;
+  int len;
+  int tmp;
+  char * tab = "";
+
+  if (nb < 0)
+    return ("");
+  len = get_len_of_nbr(nb);
+  tab = malloc(sizeof(char) * len);
+  for (i = len, j = 0; i > 0; i--, j++)
     {
-      if (i == 0)
-	{
-	  i++;
-	  tab[0] = nb % 10 + 48;
-	}
-      nb = nb / 10;
-      nbtest = nb % 10;
-      tab[i] = nbtest + 48;
-      i++;
+      tmp = nb / my_power_rec(10, i-1);
+      tab[j] = tmp + '0';
+      nb = nb - tmp * my_power_rec(10, i-1);
     }
-  //for (i = my_strlen(&tab[0]); i != 0; i--)
-  //my_putchar((tab[i - 1] >= '0' && tab[i - 1] <= '9') ? (tab[i - 1]) : ('\0'));
-  tab[i] = '\0';
+  tab[j+1] = '\0';
   return (tab);
 }

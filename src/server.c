@@ -50,7 +50,7 @@ int * accept_for_clients(int socket_desc)
       if (clients[i] == -1)
 	return (NULL);
       message = "Client \0";
-      final_message = my_strcat2(message, my_get_str_to_nbr(i));
+      final_message = my_strcat2(message, my_get_nbr_to_str(i));
       final_message = my_strcat2(final_message, ".");
       write(clients[i], final_message, my_strlen(final_message));
     }
@@ -87,18 +87,16 @@ void fd_isset_for(int num, int * clients, fd_set * readfs, char * buffer)
 
 void select_for_soft_war(int * clients, fd_set * readfs, char * buffer)
 {
+  int i;
+  
   fd_set_clients(clients, readfs);
   select(8, readfs, NULL, NULL, NULL);
-  fd_isset_for(0, clients, readfs, buffer);
-  fd_isset_for(1, clients, readfs, buffer);
-  fd_isset_for(2, clients, readfs, buffer);
-  fd_isset_for(3, clients, readfs, buffer);
+  for (i = 0; i < 4; i++)
+    fd_isset_for(i, clients, readfs, buffer);
   if (FD_ISSET(0, readfs))
     {
-      close(clients[0]);
-      close(clients[1]);
-      close(clients[2]);
-      close(clients[3]);
+      for (i = 0; i < 4; i++)
+	close(clients[i]);
       //return (EXIT_SUCCESS);
     }
 }
