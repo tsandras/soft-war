@@ -48,6 +48,14 @@ void handle_type();
 void init_soft_war();
 void show_info_server();
 void build_map();
+int accept_client_non_blocking(int socket_dec);
+void message_started(int i, int * clients);
+int nbs_clients(int * clients);
+int find_free_pos(int * clients);
+void fd_isset_for_quit(int num, int * clients, fd_set * readfs);
+int max_file_desc(int * clients);
+int * accept_for_clients(int socket_desc);
+void fd_set_clients(int * clients, fd_set * readfs);
 
 t_data_soft_war soft_war;
 

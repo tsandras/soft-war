@@ -30,8 +30,15 @@ void build_map()
 {
   int i;
   int j;
-  
+
+  soft_war.map = malloc(sizeof(char) * soft_war.size);
   for (i = 0; i < soft_war.size; i++)
-    for (j = 0; j < soft_war.size; j++)
-      soft_war.map[i][j] = "empty";
+    {
+      soft_war.map[i] = malloc(sizeof(char) * soft_war.size);
+      for (j = 0; j < soft_war.size; j++)
+	{
+	  soft_war.map[i][j] = malloc(sizeof(char) * 5);
+	  soft_war.map[i][j] = "empty";
+	}
+    }
 }

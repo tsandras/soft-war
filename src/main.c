@@ -19,13 +19,14 @@ int main(int argc , char *argv[])
   int * clients = malloc(sizeof(int) * 4);
   char buffer[20];
   fd_set readfs;
+  
   init_soft_war();
   my_actopt(g_tab, 6, argc, argv);
   build_map();
   show_info_server();
   if (soft_war.type == 0)
     {
-      socket_desc = create_server(81);
+      socket_desc = create_server(soft_war.port);
       clients = accept_for_clients(socket_desc);
       while (1)
 	 {
