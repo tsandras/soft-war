@@ -1,6 +1,8 @@
 #include "src.h"
 #include "../lib/lib.h"
 
+extern t_data_soft_war soft_war;
+
 int create_server(int port)
 {
   int socket_desc;
@@ -49,10 +51,14 @@ int * accept_for_clients(int socket_desc)
       clients[i] = accept_client(socket_desc);
       if (clients[i] == -1)
 	return (NULL);
-      message = "Client \0";
+      soft_war.clients_co = soft_war.clients_co + 1;
+      message = "Client";
       final_message = my_strcat2(message, my_get_nbr_to_str(i));
       final_message = my_strcat2(final_message, ".");
       write(clients[i], final_message, my_strlen(final_message));
+      final_message = my_strcat2("Nbs Cs : ", my_get_nbr_to_str(soft_war.clients_co));
+      write(clients[i], final_message, my_strlen(final_message));
+      write(clients[i], "\n", 1);
     }
   return (clients);
 }

@@ -41,7 +41,6 @@ void short_opt(int *i, t_arg_cb *tab, int len, int ac, char **av)
 void my_actopt(t_arg_cb *tab, int len, int ac, char **av)
 {
   int i;
-
   for (i = 1; i < ac; ++i)
     {
       if (av[i][0] == '-' && my_strlen(av[i]) == 2)

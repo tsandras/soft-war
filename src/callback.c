@@ -1,15 +1,18 @@
 #include "src.h"
+#include "../lib/lib.h"
 
-t_data_soft_war soft_war;
+extern t_data_soft_war soft_war;
 
-void handle_port(unsigned int port)
+void handle_port(char * port)
 {
-  soft_war.port = port;
+  if (my_getnbr(port) > 0)
+    soft_war.port = my_getnbr(port);
 }
 
-void handle_cycle(unsigned int cycle)
+void handle_cycle(char * cycle)
 {
-  soft_war.cycle = cycle;
+  if (my_getnbr(cycle) > 0)
+    soft_war.cycle = my_getnbr(cycle);
 }
 
 void handle_verbose()
@@ -22,9 +25,10 @@ void handle_log(char * log)
   soft_war.log = log;
 }
 
-void handle_size(unsigned int size)
+void handle_size(char * size)
 {
-  soft_war.size = size;
+  if (my_getnbr(size) > 0)
+    soft_war.size = my_getnbr(size);
 }
 
 void handle_type()

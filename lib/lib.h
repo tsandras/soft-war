@@ -12,5 +12,7 @@ int my_isalpha(char c);
 void my_actopt(t_arg_cb *tab, int len, int ac, char **av);
 int     my_strncmp(char *s1, char *s2, int n);
 int     my_strcmp(char *s1, char *s2);
+int my_getnbr(char *str);
+void die(char * message);
 
 #endif
