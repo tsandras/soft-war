@@ -65,9 +65,6 @@ void fd_isset_for_quit(int num, int * clients, fd_set * readfs)
   if (FD_ISSET(clients[num], readfs))
     {
       nread = read(clients[num], buffer, 128);
-      write(1, "reread:", 7);
-      write(1, my_get_nbr_to_str(nread), my_strlen(my_get_nbr_to_str(nread)));
-      write(1, "\n", 1);
       if (nread <= 0  || !my_strcmp(buffer, "exit"))
 	{
 	  FD_CLR(clients[num], readfs);
@@ -110,14 +107,11 @@ int * accept_for_clients(int socket_desc)
       clients[i] = accept_client_non_blocking(socket_desc);
       if (clients[i] != -1)
 	{
-	  write(1, "val:", 4);
-	  write(1, my_get_nbr_to_str(clients[i]), my_strlen(my_get_nbr_to_str(clients[i])));
-	  write(1, "\n", 1);
 	  soft_war.clients_co = soft_war.clients_co + 1;
 	  message_started(i, clients);
 	}
       fd_set_clients(clients, &readfs);
-      struct timeval tv = {0, 50000};
+      struct timeval tv = {0, soft_war.cycle};
       select(1 + max_file_desc(clients), &readfs, NULL, NULL, &tv);
       for (i = 0; i < 4; i++)
 	if (clients[i] != -1)
@@ -130,6 +124,5 @@ int * accept_for_clients(int socket_desc)
 	    close(clients[i]);
       }
     }
-  write(1, "fin accept", 10);
   return (clients);
 }

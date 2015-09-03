@@ -3,6 +3,11 @@
 
 extern t_data_soft_war soft_war;
 
+static t_cmd cmds[] =
+{
+  {"watch", &watch}
+};
+
 int create_server(int port)
 {
   int socket_desc;
@@ -52,18 +57,20 @@ void fd_set_clients(int * clients, fd_set * readfs)
 void fd_isset_for(int num, int * clients, fd_set * readfs, char * buffer)
 {
   int nread;
+  char * res;
   int i;
-  
+
+  res = malloc(sizeof(char) * 128);
   if (FD_ISSET(clients[num], readfs))
     {
-      memset(buffer, 0, 20);
-      nread = read(clients[num], buffer, 20);
+      nread = read(clients[num], buffer, 32);
       buffer[nread] = '\0';
-      for (i = 0; i < 4; i++)
+      for (i = 0; i < NBS_CMD; i++)
 	{
-	  if (i != num)
-	    write(clients[i], buffer, strlen(buffer));
-	}
+	  if (my_strcmp(cmds[i].name, buffer) == 0)
+	    res = cmds[i].cb(num, buffer);
+	 }
+      write(clients[num], res, strlen(res));
     }
 }
 
@@ -79,6 +86,5 @@ void select_for_soft_war(int * clients, fd_set * readfs, char * buffer)
     {
       for (i = 0; i < 4; i++)
 	close(clients[i]);
-      //return (EXIT_SUCCESS);
     }
 }

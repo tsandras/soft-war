@@ -17,7 +17,7 @@ int main(int argc , char *argv[])
 {
   int socket_desc;
   int * clients = malloc(sizeof(int) * 4);
-  char buffer[20];
+  char buffer[32] = {0};
   fd_set readfs;
   
   init_soft_war();
@@ -28,6 +28,7 @@ int main(int argc , char *argv[])
     {
       socket_desc = create_server(soft_war.port);
       clients = accept_for_clients(socket_desc);
+      put_clients_on_map();
       while (1)
 	 {
 	   select_for_soft_war(clients, &readfs, buffer);
@@ -35,7 +36,7 @@ int main(int argc , char *argv[])
     }
   else
     {
-      write(1, "client", 6);
+      play(argc, argv);
     }
   return (0);
 }

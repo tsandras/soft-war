@@ -1,11 +1,10 @@
 #ifndef SRC_H
 #define SRC_H
 
-#include<stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
-#include<sys/socket.h>
+#include <sys/socket.h>
 #include <errno.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
 #include <string.h>
 #include <unistd.h>
@@ -20,6 +19,20 @@ typedef struct s_arg_cb
   void (*cb)();
 } t_arg_cb;
 
+typedef struct s_cmd
+{
+  char * name;
+  char * (*cb)();
+} t_cmd;
+
+#define NBS_CMD 1
+
+typedef struct s_pos
+{
+  int x;
+  int y;
+} t_pos;
+
 typedef struct s_data_soft_war
 {
   int port;
@@ -29,7 +42,7 @@ typedef struct s_data_soft_war
   int size;
   int type;
   int clients_co;
-  char *** map;
+  char ** map[6];
 } t_data_soft_war;
 
 void die(char* message);
@@ -56,6 +69,13 @@ void fd_isset_for_quit(int num, int * clients, fd_set * readfs);
 int max_file_desc(int * clients);
 int * accept_for_clients(int socket_desc);
 void fd_set_clients(int * clients, fd_set * readfs);
+void put_clients_on_map();
+char * watch(int num, char * cmd);
+void show_map();
+int connect_to(char *hostname, int port);
+int recv_from_server(int s, int action);
+int play();
+void send_to_server(int s, char* req, int size);
 
 t_data_soft_war soft_war;
 
